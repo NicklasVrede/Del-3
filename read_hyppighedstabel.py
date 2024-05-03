@@ -12,6 +12,3 @@ def count_bytes(file):
             #prøv bincount fra numpy senere.
 
     return counts
-
-
-print(count_bytes("test.txt"))
