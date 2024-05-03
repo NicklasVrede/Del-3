@@ -75,5 +75,5 @@ def visualize_tree(root):
 if __name__ == "__main__":
     hyppighedstabel = count_bytes("test.txt")
 
-    root = generate_hoffmann(hyppighedstabel)
-    visualize_tree(root)
+    rod = generate_hoffmann(hyppighedstabel)
+    visualize_tree(rod)

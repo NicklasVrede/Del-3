@@ -56,6 +56,7 @@ class DictBinTree:
             y.højre = BinNode(k)
 
     def orderedTraversal(self) -> list[int]:
+        res = []
         def træ_gang(x, res=[]):
             if x != None:
                 træ_gang(x.venstre, res)
