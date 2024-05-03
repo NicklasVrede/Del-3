@@ -48,25 +48,24 @@ def generate_hoffmann(hyppighedstabel):
 def visualize_tree(root):
     dot = Digraph(comment='Huffman Tree')
 
-    def add_nodes_edges(root, parent_id=None, dot=None):
+    def add_nodes_edges(root, parent_id=None, dot=None, sti=""):
         # Check if the node is a leaf
         is_leaf = root.venstre is None and root.højre is None
 
         # Change the color of the node based on whether it's a leaf
         node_color = 'black' if is_leaf else 'red'
 
-        # Change the label of each node to display the unicode value and the frequency
-        dot.node(str(id(root)), f'{root.unicode}:{root.frekvens}' if root.unicode is not None else str(root.frekvens), color=node_color)
+        # Change the label of each node to display the unicode value, the frequency, and the path
+        label = f'"{chr(root.unicode)}":{root.frekvens} ({sti})' if root.unicode is not None else str(root.frekvens)
+        dot.node(str(id(root)), label, color=node_color)
 
         if parent_id is not None:
             dot.edge(parent_id, str(id(root)))
 
         if root.venstre is not None:
-            add_nodes_edges(root.venstre, str(id(root)), dot=dot)
+            add_nodes_edges(root.venstre, str(id(root)), dot=dot, sti=sti+"0")
         if root.højre is not None:
-            add_nodes_edges(root.højre, str(id(root)), dot=dot)
-
-        return dot
+            add_nodes_edges(root.højre, str(id(root)), dot=dot, sti=sti+"1")
 
     add_nodes_edges(root, dot=dot)
     dot.view()
