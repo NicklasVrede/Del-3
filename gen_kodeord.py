@@ -6,7 +6,7 @@ import numpy as np
 
 
 def find_stier(x) -> list[int]:
-    res = np.zeros(256, dtype=np.int64)
+    res = [None] * 256
     def træ_gang(x, res, sti=""):
         if x != None:
             træ_gang(x.venstre, res, sti + "0")
