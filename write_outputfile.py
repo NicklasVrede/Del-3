@@ -12,12 +12,20 @@ def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
         #skriv hyppigheder
         for hyppighed in hyppighedstabel:
             writer.writeint32bits(hyppighed)
+        
 
-
+        total_bitstreng = ""
         #skriv resten af filen
         while (byte := f_read.read(1)):
-            for bit in kodeord[byte[0]]:
+            bitcode = ""  #for debugging
+            for bit in kodeord[byte[0]]: #skriv bitkode på indeks byte[0], bit for bit
                 writer.writebit(int(bit))
+                bitcode += bit
+            print(f'Skrev bitkode {bitcode} for byte {byte[0]}') #debugging
+            total_bitstreng += bitcode
+
+        print(f'Skrev total bitstreng: {total_bitstreng}')
+
 
 
 if __name__ == "__main__":

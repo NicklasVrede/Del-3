@@ -49,7 +49,7 @@ def generate_hoffmann(hyppighedstabel):
     return min_heap.rod.k
 
 
-def add_nodes_edges(root, parent_id=None, dot=None):
+def add_nodes_edges(root, parent_id=None, dot=None, edge_label=None):
     # Base case: if the tree is empty, return
     if root is None:
         return
@@ -64,12 +64,12 @@ def add_nodes_edges(root, parent_id=None, dot=None):
     dot.node(str(node_id), label)
 
     # If this is not the root node, add an edge from the parent node to the current node
-    if parent_id is not None:
-        dot.edge(str(parent_id), str(node_id))
+    if parent_id is not None and edge_label is not None:
+        dot.edge(str(parent_id), str(node_id), label=edge_label)
 
     # Recursively add nodes and edges for the left and right children
-    add_nodes_edges(root.venstre, node_id, dot)
-    add_nodes_edges(root.højre, node_id, dot)
+    add_nodes_edges(root.venstre, node_id, dot, edge_label="0")
+    add_nodes_edges(root.højre, node_id, dot, edge_label="1")
 
 def visualize_tree(root):
     # Create a new Graphviz object
