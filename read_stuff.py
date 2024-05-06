@@ -13,17 +13,20 @@ hyppighedstabel = []
 for i in range(256):
     hyppighedstabel.append(reader.readint32bits())
 
+print(f'Hyppighedstabel: {hyppighedstabel}')
+
 #generer kodeord
 rod = generate_hoffmann(hyppighedstabel)
 kodeord = find_stier(rod)
+print(f'Kodeord: {kodeord}')
 
 #find total bits at læse/skrive:
 sum = sum(hyppighedstabel)
-print(sum)
+print(f'Sum af hyppighed: {sum}')
 
 i = 0
-bitstrings = [] 
-print(kodeord) 
+bitstrings = []
+
 
 #læs mens vi har "hyppigheder" at læse
 while i <= sum:
@@ -34,7 +37,5 @@ while i <= sum:
         if bitstr in kodeord:
             i += 1
             break
-    print(bitstr)
+    #print(bitstr)
     bitstrings.append(bitstr)
-
-print(bitstrings)
