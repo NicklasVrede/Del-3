@@ -31,7 +31,7 @@ if __name__ == "__main__":
     kodeord = find_stier(rod)
 
     
-    write_file(hyppighedstabel, "testOut.txt")
+    write_file(hyppighedstabel, "testEncoded.txt")
 
 
 

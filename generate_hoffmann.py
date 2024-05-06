@@ -45,8 +45,6 @@ def generate_hoffmann(hyppighedstabel):
         min_heap.insert(ny_node)
 
 
-    print(min_heap.orderedTraversal()[0])
-
     # Returner roden af træet
     return min_heap.rod.k
 
