@@ -6,11 +6,19 @@ class BinNode:
         self.venstre = None
         self.højre = None
 
+    def __repr__(self) -> str:
+        return f"Node({self.frekvens}, {self.unicode})"
+
+    def __lt__(self, other):
+        return self.frekvens < other.frekvens  # sammenlign frekvenser
+
 class DictBinTree:
     def __init__(self):
         self.rod = None
     
-
+    def __len__(self):
+        return len(self.orderedTraversal())
+    
     #Iterativ udgave
     def search(self, k: int) -> bool:
         #Peg på en node  og brug x som i pseudokoden
@@ -67,5 +75,25 @@ class DictBinTree:
 
         return træ_gang(self.rod)
     
+    def extract_min(self):
+        #stop hvis træet er tomt
+        if self.rod == None:
+            return None
+
+        x = self.rod
+        y = None
+
+        #find det mindste element
+        while x.venstre != None:
+            y = x
+            x = x.venstre
+
+        #fjern det mindste element
+        if y != None:
+            y.venstre = x.højre
+        else:
+            self.rod = x.højre
+
+        return x.k
 
 

@@ -1,9 +1,6 @@
 import numpy as np
 from ini import set_wd
 
-#set working directory
-set_wd()
-
 def count_bytes(file):
     counts = np.zeros(256, dtype=int) #array for effektivitet.
     with open(file, 'rb') as f:
@@ -12,3 +9,9 @@ def count_bytes(file):
             #prøv bincount fra numpy senere.
 
     return counts
+
+if __name__ == "__main__":
+    #set working directory
+    set_wd()
+    counts = count_bytes("test.txt")
+    print(counts)

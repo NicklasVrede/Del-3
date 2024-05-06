@@ -1,78 +1,94 @@
 from DictBinTree import DictBinTree
 from read_hyppighedstabel import count_bytes
 import heapq
+from ini import set_wd
 from graphviz import Digraph
 
-
-class Node:
-    def __init__(self, k: int):
-        self.frekvens = k
-        self.unicode = None #Måske?
+class Element:
+    def __init__(self,key,data):
         self.venstre = None
         self.højre = None
+        self.key = key
+        self.data = data
 
-    def __repr__(self) -> str:
-        return f"Node({self.frekvens}, {self.unicode})"
+    def __eq__(self, other):
+        if other is None:
+            return False
+        else:
+            return self.key == other.key
 
-    def __lt__(self, other):
-        return self.frekvens < other.frekvens  # sammenlign frekvenser
+    def __lt__(self,other):
+        return self.key < other.key
+    
+    def __str__(self):
+        return f"Element({self.key}, {self.data})"
 
 
 def generate_hoffmann(hyppighedstabel):
     # Opret en liste af noder
-    noder = []
-    
-    for index, k in enumerate(hyppighedstabel):
-        if k > 0:
-            node = Node(k)
-            node.unicode = index
-            noder.append(node)
-    
-    print(noder)
+    min_heap = DictBinTree()
 
-    heapq.heapify(noder)
+    for i, hyppighed in enumerate(hyppighedstabel):
+        min_heap.insert(Element(hyppighed, i))
 
-    while len(noder) > 1:
-        x = heapq.heappop(noder)
-        y = heapq.heappop(noder)
+    while len(min_heap) > 1:
+        # Fjern de to noder med lavest frekvens
+        element_venstre = min_heap.extract_min()
+        element_højre = min_heap.extract_min()
 
-        z = Node(x.frekvens + y.frekvens)
-        z.venstre = x
-        z.højre = y
+        # Opret en ny node med frekvensen lig summen af de to noder
+        ny_node = Element(element_venstre.key + element_højre.key, None)
+        ny_node.venstre = element_venstre
+        ny_node.højre = element_højre
 
-        heapq.heappush(noder, z)
+        # Indsæt den nye node i heapen
+        min_heap.insert(ny_node)
 
-    return noder[0]  # Returner roden af træet
 
+    print(min_heap.orderedTraversal()[0])
+
+    # Returner roden af træet
+    return min_heap.rod.k
+
+
+def add_nodes_edges(root, parent_id=None, dot=None):
+    # Base case: if the tree is empty, return
+    if root is None:
+        return
+
+    # Create a unique id for the current node
+    node_id = id(root)
+
+    # Create a label for the node
+    label = f"{root.key}:{root.data}"
+
+    # Add the current node to the Graphviz object
+    dot.node(str(node_id), label)
+
+    # If this is not the root node, add an edge from the parent node to the current node
+    if parent_id is not None:
+        dot.edge(str(parent_id), str(node_id))
+
+    # Recursively add nodes and edges for the left and right children
+    add_nodes_edges(root.venstre, node_id, dot)
+    add_nodes_edges(root.højre, node_id, dot)
 
 def visualize_tree(root):
+    # Create a new Graphviz object
     dot = Digraph(comment='Huffman Tree')
 
-    def add_nodes_edges(root, parent_id=None, dot=None, sti=""):
-        # Check if the node is a leaf
-        is_leaf = root.venstre is None and root.højre is None
+    # Add nodes and edges for the tree
+    add_nodes_edges(root, None, dot)
 
-        # Change the color of the node based on whether it's a leaf
-        node_color = 'black' if is_leaf else 'red'
-
-        # Change the label of each node to display the unicode value, the frequency, and the path
-        label = f'"{chr(root.unicode)}":{root.frekvens} ({sti})' if root.unicode is not None else str(root.frekvens)
-        dot.node(str(id(root)), label, color=node_color)
-
-        if parent_id is not None:
-            dot.edge(parent_id, str(id(root)))
-
-        if root.venstre is not None:
-            add_nodes_edges(root.venstre, str(id(root)), dot=dot, sti=sti+"0")
-        if root.højre is not None:
-            add_nodes_edges(root.højre, str(id(root)), dot=dot, sti=sti+"1")
-
-    add_nodes_edges(root, dot=dot)
+    # Render the Graphviz object
     dot.view()
 
 
 if __name__ == "__main__":
+    set_wd()
     hyppighedstabel = count_bytes("test.txt")
 
     rod = generate_hoffmann(hyppighedstabel)
     visualize_tree(rod)
+    
+    
