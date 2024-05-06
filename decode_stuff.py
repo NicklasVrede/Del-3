@@ -45,11 +45,3 @@ while i < sum:
 print(f'Bitstrings: {bitstrings}')
 
 #skriv til fil
-with open("testDecoded.txt", "w", encoding='utf-8') as f_write:
-    for bitstring in bitstrings:
-        # Convert the bitstring to an integer
-        index = int(bitstring, 2)
-        # Check if the index is within the range of the list
-        if 0 <= index < len(kodeord):
-            # Write the corresponding Unicode character to the file
-            f_write.write(chr(index))
