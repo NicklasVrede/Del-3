@@ -44,4 +44,11 @@ while i < sum:
 
 print(f'Bitstrings: {bitstrings}')
 
-#skriv til fil
+#skriv den oprindelige fil igen:
+
+for bitstring in bitstrings:
+    print(f'Bitstren: {bitstring} = {chr(kodeord.index(bitstring))}')
+
+with open("testDecoded.txt", "wt") as f:
+    for bitstring in bitstrings:
+        f.write(chr(kodeord.index(bitstring)))
