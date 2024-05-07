@@ -10,6 +10,8 @@ from graphviz import Digraph
 
 class Element:
     def __init__(self, key, data):
+        self.venstre = None
+        self.højre = None
         self.key = key  # frequency
         self.data = data  # byte value
 
@@ -21,6 +23,7 @@ class Element:
 
 class CoreElement(Element):
     def __init__(self, venstre, højre):
+        #Vi vil gerne undgå at merge coreelementer, når vi har elements.
         self.key = venstre.key + højre.key + 0.0000000001# for et mere balanceret træ. Bedre løsning?
         self.data = -1
         self.venstre = venstre
