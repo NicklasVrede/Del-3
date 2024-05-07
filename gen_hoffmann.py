@@ -11,42 +11,41 @@ class Element:
         self.data = data
 
     def __eq__(self, other):
-        if other is None:
-            return False
-        else:
-            return self.key == other.key
+        return self.key == other.key
 
     def __lt__(self,other):
         return self.key < other.key
     
-    def __str__(self):
-        return f"Element({self.key}, {self.data})"
-
 
 def gen_hoffmann(hyppighedstabel):
     # Opret en liste af noder
     min_heap = DictBinTree()
 
+    #lav min_heap
     for i, hyppighed in enumerate(hyppighedstabel):
         min_heap.insert(Element(hyppighed, i))
 
-    while len(min_heap) > 1:  #Dette er ikke særlig effektivt!
-        # Fjern de to noder med lavest frekvens
-        element_venstre = min_heap.extract_min()
-        element_højre = min_heap.extract_min()
+    # Fjern de to noder med lavest frekvens
+    x = min_heap.extract_min() #
+    while True:
+        y = min_heap.extract_min()
+
+        # Hvis der ikke er 2 noder tilbage, så er træet færdigt
+        if y is None:
+            break
 
         # Opret en ny node med frekvensen lig summen af de to noder
-        ny_node = Element(element_venstre.key + element_højre.key, None)
-        ny_node.venstre = element_venstre
-        ny_node.højre = element_højre
+        z = Element(x.key + y.key, None)
+        z.venstre = x
+        z.højre = y
 
         # Indsæt den nye node i heapen
-        min_heap.insert(ny_node)
+        min_heap.insert(z)
 
+        x = min_heap.extract_min()
 
     # Returner roden af træet
-    return min_heap.rod.k
-
+    return x
 
 def add_nodes_edges(root, parent_id=None, dot=None, edge_label=None):
     # Base case: if the tree is empty, return

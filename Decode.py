@@ -24,12 +24,11 @@ print(f'Kodeord: {kodeord}')
 sum = sum(hyppighedstabel)
 print(f'Sum af hyppighed: {sum}')
 
-i = 0
+
 bitstrings = []
 
-
 #læs mens vi har "hyppigheder" at læse
-while i < sum:
+for _ in range(sum):
     bitcode = ""
     current_node = rod
     while current_node.data is None:
@@ -40,7 +39,7 @@ while i < sum:
         else:
             current_node = current_node.højre
     bitstrings.append(bitcode)
-    i += 1
+
 
 print(f'Bitstrings: {bitstrings}')
 
@@ -49,9 +48,6 @@ reader.close()
 
 #skriv den oprindelige fil igen:
 
-for bitstring in bitstrings:
-    print(f'Bitstren: {bitstring} = {chr(kodeord.index(bitstring))}')
-
-with open("testDecoded.txt", "wt") as f:
+with open("testDecoded.txt", "wb") as f:
     for bitstring in bitstrings:
-        f.write(chr(kodeord.index(bitstring)))
+        f.write(bytes([kodeord.index(bitstring)]))
