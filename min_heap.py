@@ -1,3 +1,9 @@
+#Navne: 
+#Nicklas Enøe Vrede, nickh13
+#Mike Brydegaard, mibry23
+#Jakob, jamar23
+
+
 class BinNode:
     def __init__(self, nøgle: int):
         self.k: int = nøgle
@@ -10,7 +16,7 @@ class BinNode:
     def __lt__(self, other):
         return self.frekvens < other.frekvens  # sammenlign frekvenser
 
-class DictBinTree:
+class MinHeap:
     def __init__(self):
         self.rod = None
     

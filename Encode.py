@@ -1,3 +1,8 @@
+#Navne: 
+#Nicklas Enøe Vrede, nickh13
+#Mike Brydegaard, mibry23
+#Jakob, jamar23
+
 from gen_hoffmann import gen_hoffmann
 from gen_kodeord import gen_kodeord
 from gen_hyppig import tæl_bytes

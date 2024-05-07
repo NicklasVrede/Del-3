@@ -1,16 +1,22 @@
+#Navne: 
+#Nicklas Enøe Vrede, nickh13
+#Mike Brydegaard, mibry23
+#Jakob, jamar23
+
 from gen_hyppig import tæl_bytes
 from gen_hoffmann import gen_hoffmann
 from ini import set_wd
-import numpy as np
 
 
 def gen_kodeord(x) -> list[int]:
-    res = [None] * 256 #brug array for effektivitet?
+    # Opret en liste af 256 elementer, som skal indeholde bitkoderne
+    res = [None] * 256
+
+    # Rekursiv funktion, der går gennem træet og gemmer bitkoderne
     def træ_gang(x, res, sti=""):
         if x is not None:
             træ_gang(x.venstre, res, sti + "0")
             if x.data != None:
-                #print(f'Fandt blad med værdi {x.data} og sti {sti}')
                 res[x.data] = sti
             træ_gang(x.højre, res, sti + "1")
         

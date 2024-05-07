@@ -1,3 +1,9 @@
+#Navne: 
+#Nicklas Enøe Vrede, nickh13
+#Mike Brydegaard, mibry23
+#Jakob, jamar23
+
+
 from bitIO import BitReader
 from ini import set_wd
 from gen_hoffmann import gen_hoffmann

@@ -1,4 +1,9 @@
-from min_heap import DictBinTree
+#Navne: 
+#Nicklas Enøe Vrede, nickh13
+#Mike Brydegaard, mibry23
+#Jakob, jamar23
+
+from min_heap import MinHeap
 from gen_hyppig import tæl_bytes
 from ini import set_wd
 from graphviz import Digraph
@@ -19,7 +24,7 @@ class Element:
 
 def gen_hoffmann(hyppighedstabel):
     # Opret en liste af noder
-    min_heap = DictBinTree()
+    min_heap = MinHeap()
 
     #lav min_heap
     for i, hyppighed in enumerate(hyppighedstabel):
