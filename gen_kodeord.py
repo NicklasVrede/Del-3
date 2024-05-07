@@ -10,13 +10,13 @@ from ini import set_wd
 
 def gen_kodeord(x) -> list[int]:
     # Opret en liste af 256 elementer, som skal indeholde bitkoderne
-    res = [None] * 256
+    res = [0] * 256
 
     # Rekursiv funktion, der går gennem træet og gemmer bitkoderne
     def træ_gang(x, res, sti=""):
         if x is not None:
             træ_gang(x.venstre, res, sti + "0")
-            if x.data != None:
+            if x.data != -1:
                 res[x.data] = sti
             træ_gang(x.højre, res, sti + "1")
         
@@ -30,3 +30,7 @@ if __name__ == "__main__":
     hyppighedstabel = tæl_bytes("test.txt")
 
     rod = gen_hoffmann(hyppighedstabel)
+    
+    bitkoder = gen_kodeord(rod)
+
+    print(f'Bitkoder: {bitkoder}')    

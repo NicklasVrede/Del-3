@@ -1,9 +1,4 @@
-#Navne: 
-#Nicklas Enøe Vrede, nickh13
-#Mike Brydegaard, mibry23
-#Jakob, jamar23
-
-import PQHeap
+import heapq
 from gen_hyppig import tæl_bytes
 from ini import set_wd
 from graphviz import Digraph
@@ -20,35 +15,30 @@ class Element:
 
     def __lt__(self, other):
         return self.key < other.key
-        
 
 def gen_hoffmann(hyppighedstabel):
     # Opret en liste af noder
-    min_heap = PQHeap.createEmptyPQ()
+    min_heap = []
 
     #lav min_heap
     for i, hyppighed in enumerate(hyppighedstabel):
-        PQHeap.insert(min_heap, Element(hyppighed, i))
+        heapq.heappush(min_heap, Element(hyppighed, i))
 
     # Fjern de to noder med lavest frekvens
-    x = PQHeap.extractMin(min_heap) #
-    while True:
-        y = PQHeap.extractMin(min_heap)
-
-        # Hvis der ikke er 2 noder tilbage, så er træet færdigt
-        if y is None:
-            break
+    x = heapq.heappop(min_heap)
+    while min_heap:
+        y = heapq.heappop(min_heap)
 
         # Opret en ny node med frekvensen lig summen af de to noder
- 
-        z = Element(x.key + y.key + 0.0001, -1)
+        z = Element(x.key + y.key, -1)
         z.venstre = x
         z.højre = y
 
         # Indsæt den nye node i heapen
-        PQHeap.insert(min_heap, z)
+        heapq.heappush(min_heap, z)
 
-        x = PQHeap.extractMin(min_heap)
+        if min_heap:
+            x = heapq.heappop(min_heap)
 
     # Returner roden af træet
     return x
@@ -92,5 +82,3 @@ if __name__ == "__main__":
 
     rod = gen_hoffmann(hyppighedstabel)
     visualize_tree(rod)
-    
-    

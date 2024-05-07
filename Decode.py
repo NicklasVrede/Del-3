@@ -37,7 +37,7 @@ bitstrings = []
 for _ in range(sum):
     bitcode = ""
     current_node = rod
-    while current_node.data is None:
+    while current_node.data == -1:
         bit = reader.readbit()
         bitcode += str(bit)
         if bit == 0:
@@ -57,3 +57,5 @@ reader.close()
 with open("testDecoded.txt", "wb") as f:
     for bitstring in bitstrings:
         f.write(bytes([kodeord.index(bitstring)]))
+
+print("Done!")
