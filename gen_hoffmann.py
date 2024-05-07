@@ -1,6 +1,5 @@
-from DictBinTree import DictBinTree
-from read_hyppighedstabel import count_bytes
-import heapq
+from min_heap import DictBinTree
+from gen_hyppig import tæl_bytes
 from ini import set_wd
 from graphviz import Digraph
 
@@ -24,14 +23,14 @@ class Element:
         return f"Element({self.key}, {self.data})"
 
 
-def generate_hoffmann(hyppighedstabel):
+def gen_hoffmann(hyppighedstabel):
     # Opret en liste af noder
     min_heap = DictBinTree()
 
     for i, hyppighed in enumerate(hyppighedstabel):
         min_heap.insert(Element(hyppighed, i))
 
-    while len(min_heap) > 1:
+    while len(min_heap) > 1:  #Dette er ikke særlig effektivt!
         # Fjern de to noder med lavest frekvens
         element_venstre = min_heap.extract_min()
         element_højre = min_heap.extract_min()
@@ -84,9 +83,9 @@ def visualize_tree(root):
 
 if __name__ == "__main__":
     set_wd()
-    hyppighedstabel = count_bytes("test.txt")
+    hyppighedstabel = tæl_bytes("test.txt")
 
-    rod = generate_hoffmann(hyppighedstabel)
+    rod = gen_hoffmann(hyppighedstabel)
     visualize_tree(rod)
     
     

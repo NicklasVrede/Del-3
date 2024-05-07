@@ -1,7 +1,7 @@
 from bitIO import BitReader
 from ini import set_wd
-from generate_hoffmann import generate_hoffmann
-from gen_kodeord import find_stier
+from gen_hoffmann import gen_hoffmann
+from gen_kodeord import gen_kodeord
 
 #åben filen og lav en reader
 set_wd()
@@ -16,8 +16,8 @@ for i in range(256):
 print(f'Hyppighedstabel: {hyppighedstabel}')
 
 #generer kodeord
-rod = generate_hoffmann(hyppighedstabel)
-kodeord = find_stier(rod)
+rod = gen_hoffmann(hyppighedstabel)
+kodeord = gen_kodeord(rod)
 print(f'Kodeord: {kodeord}')
 
 #find total bits at læse/skrive:

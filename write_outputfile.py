@@ -1,6 +1,6 @@
-from generate_hoffmann import generate_hoffmann
-from gen_kodeord import find_stier
-from read_hyppighedstabel import count_bytes
+from gen_hoffmann import gen_hoffmann
+from gen_kodeord import gen_kodeord
+from gen_hyppig import tæl_bytes
 from bitIO import BitWriter, BitReader
 from ini import set_wd
 
@@ -34,10 +34,10 @@ def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
 
 if __name__ == "__main__":
     set_wd()
-    hyppighedstabel = count_bytes("test.txt")
+    hyppighedstabel = tæl_bytes("test.txt")
 
-    rod = generate_hoffmann(hyppighedstabel)
-    kodeord = find_stier(rod)
+    rod = gen_hoffmann(hyppighedstabel)
+    kodeord = gen_kodeord(rod)
 
     
     write_file(hyppighedstabel, "test.txt", "testEncoded.txt", kodeord)

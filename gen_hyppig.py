@@ -1,7 +1,7 @@
 import numpy as np
 from ini import set_wd
 
-def count_bytes(file):
+def tæl_bytes(file):
     counts = np.zeros(256, dtype=int) #array for effektivitet.
     with open(file, 'rb') as f:
         while (byte := f.read(1)):  #walrus operator assigner f.read(1) til byte.
@@ -13,5 +13,5 @@ def count_bytes(file):
 if __name__ == "__main__":
     #set working directory
     set_wd()
-    counts = count_bytes("test.txt")
+    counts = tæl_bytes("test.txt")
     print(counts)
