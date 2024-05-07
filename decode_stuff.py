@@ -44,6 +44,9 @@ while i < sum:
 
 print(f'Bitstrings: {bitstrings}')
 
+#luk reader
+reader.close()
+
 #skriv den oprindelige fil igen:
 
 for bitstring in bitstrings:

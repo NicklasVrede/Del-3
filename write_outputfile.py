@@ -24,7 +24,11 @@ def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
             print(f'Skrev bitkode {bitcode} for byte {byte[0]}') #debugging
             total_bitstreng += bitcode
 
-        print(f'Skrev total bitstreng: {total_bitstreng}')
+        #luk writer, så den også flusher eventuelle resterende bits
+        writer.close()
+
+        print(f'Skrev total bitstreng: {total_bitstreng}') #debugging
+
 
 
 
