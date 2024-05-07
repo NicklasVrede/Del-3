@@ -9,29 +9,34 @@ from ini import set_wd
 from graphviz import Digraph
 
 class Element:
-    def __init__(self,key,data):
-        self.venstre = None
-        self.højre = None
-        self.key = key
-        self.data = data
+    def __init__(self, key, data):
+        self.key = key  # frequency
+        self.data = data  # byte value
 
     def __eq__(self, other):
         return self.key == other.key
 
     def __lt__(self, other):
         return self.key < other.key
+
+class CoreElement(Element):
+    def __init__(self, venstre, højre):
+        self.key = venstre.key + højre.key + 0.0000000001# for et mere balanceret træ. Bedre løsning?
+        self.data = -1
+        self.venstre = venstre
+        self.højre = højre
         
 
 def gen_hoffmann(hyppighedstabel):
     # Opret en liste af noder
     min_heap = PQHeap.createEmptyPQ()
 
-    #lav min_heap
+    #lav min_heap med små varrierende værdier, for at undgå knuder med samme værdi.
     for i, hyppighed in enumerate(hyppighedstabel):
         PQHeap.insert(min_heap, Element(hyppighed, i))
 
     # Fjern de to noder med lavest frekvens
-    x = PQHeap.extractMin(min_heap) #
+    x = PQHeap.extractMin(min_heap)
     while True:
         y = PQHeap.extractMin(min_heap)
 
@@ -39,11 +44,8 @@ def gen_hoffmann(hyppighedstabel):
         if y is None:
             break
 
-        # Opret en ny node med frekvensen lig summen af de to noder
- 
-        z = Element(x.key + y.key + 0.0001, -1)
-        z.venstre = x
-        z.højre = y
+        # Opret en indre knude med x og y som børn
+        z = CoreElement(x, y)
 
         # Indsæt den nye node i heapen
         PQHeap.insert(min_heap, z)
@@ -62,7 +64,10 @@ def add_nodes_edges(root, parent_id=None, dot=None, edge_label=None):
     node_id = id(root)
 
     # Create a label for the node
-    label = f"{root.key}:{root.data}"
+    if isinstance(root, CoreElement):
+        label = f"CoreElement\nKey: {root.key}"
+    else:
+        label = f"Element\nKey: {root.key}\nData: {root.data}"
 
     # Add the current node to the Graphviz object
     dot.node(str(node_id), label)
@@ -72,8 +77,9 @@ def add_nodes_edges(root, parent_id=None, dot=None, edge_label=None):
         dot.edge(str(parent_id), str(node_id), label=edge_label)
 
     # Recursively add nodes and edges for the left and right children
-    add_nodes_edges(root.venstre, node_id, dot, edge_label="0")
-    add_nodes_edges(root.højre, node_id, dot, edge_label="1")
+    if isinstance(root, CoreElement):
+        add_nodes_edges(root.venstre, node_id, dot, edge_label="0")
+        add_nodes_edges(root.højre, node_id, dot, edge_label="1")
 
 def visualize_tree(root):
     # Create a new Graphviz object

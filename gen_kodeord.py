@@ -14,7 +14,7 @@ def gen_kodeord(x) -> list[int]:
 
     # Rekursiv funktion, der går gennem træet og gemmer bitkoderne
     def træ_gang(x, res, sti=""):
-        if x is not None:
+        if x is not None and x.data != -1:
             træ_gang(x.venstre, res, sti + "0")
             if x.data != -1:
                 res[x.data] = sti
