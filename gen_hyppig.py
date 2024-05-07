@@ -6,7 +6,7 @@
 from ini import set_wd
 
 def tæl_bytes(file):
-    counts = [None]*256 #array for effektivitet.
+    counts = [0]*256 #array for effektivitet.
     with open(file, 'rb') as f:
         while (byte := f.read(1)):  #walrus operator assigner f.read(1) til byte.
             counts[byte[0]] += 1  #slice for at få værdien af byte.
