@@ -31,7 +31,6 @@ def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
 
 
 
-
 if __name__ == "__main__":
     set_wd()
     hyppighedstabel = tæl_bytes("test.txt")

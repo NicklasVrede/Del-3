@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 class BinNode:
     def __init__(self, nøgle: int):
         self.k: int = nøgle
