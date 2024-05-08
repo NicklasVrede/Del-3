@@ -31,11 +31,9 @@ def decode(komprimeret_fil, dekomprimeret_fil):
     #læs mens vi har "hyppigheder" at læse
     with open(dekomprimeret_fil, "wb") as f:
         for _ in range(n_bytes):
-            bitcode = ""
             current_node = rod
             while current_node.byteværdi == -1:
                 bit = reader.readbit()
-                bitcode += str(bit)
                 if bit == 0:
                     current_node = current_node.venstre
                 else:
@@ -44,6 +42,7 @@ def decode(komprimeret_fil, dekomprimeret_fil):
             #skriv byten til filen
             f.write(bytes([current_node.byteværdi]))
 
+    BitReader.close() #luk filen
 
 
 if __name__ == "__main__":
