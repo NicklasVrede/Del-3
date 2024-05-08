@@ -2,7 +2,6 @@
 #Nicklas Enøe Vrede, nickh13
 #Mike Brydegaard, mibry23
 #Jakob, jamar23
-
 from gen_hyppig import tæl_bytes
 from gen_hoffmann import gen_hoffmann
 from ini import set_wd
@@ -16,8 +15,8 @@ def gen_kodeord(x) -> list[int]:
     def træ_gang(x, res, sti=""):
         if x is not None:
             træ_gang(x.venstre, res, sti + "0")
-            if x.data != -1:
-                res[x.data] = sti
+            if x.byteværdi != -1:
+                res[x.byteværdi] = sti
             træ_gang(x.højre, res, sti + "1")
         
         return res

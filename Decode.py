@@ -2,60 +2,51 @@
 #Nicklas Enøe Vrede, nickh13
 #Mike Brydegaard, mibry23
 #Jakob, jamar23
-
-
 from bitIO import BitReader
 from ini import set_wd
 from gen_hoffmann import gen_hoffmann
-from gen_kodeord import gen_kodeord
+import sys
 
-#åben filen og lav en reader
-set_wd()
-f = open("testEncoded.txt", "rb")
-reader = BitReader(f)
-
-#bits at læse 32*256 = 8192 bits
-hyppighedstabel = []
-for i in range(256):
-    hyppighedstabel.append(reader.readint32bits())
-
-print(f'Hyppighedstabel: {hyppighedstabel}')
-
-#generer kodeord
-rod = gen_hoffmann(hyppighedstabel)
-kodeord = gen_kodeord(rod)
-print(f'Kodeord: {kodeord}')
-
-#find total bits at læse/skrive:
-sum = sum(hyppighedstabel)
-print(f'Sum af hyppighed: {sum}')
+def decode(komprimeret_fil, dekomprimeret_fil):
+    #åben filen og lav en reader
+    set_wd()
+    f = open(komprimeret_fil, "rb")
+    reader = BitReader(f)
 
 
-bitstrings = []
-
-#læs mens vi har "hyppigheder" at læse
-for _ in range(sum):
-    bitcode = ""
-    current_node = rod
-    while current_node.data == -1:
-        bit = reader.readbit()
-        bitcode += str(bit)
-        if bit == 0:
-            current_node = current_node.venstre
-        else:
-            current_node = current_node.højre
-    bitstrings.append(bitcode)
+    #bits at læse 32*256 = 8192 bits
+    hyppighedstabel = []
+    for i in range(256):
+        hyppighedstabel.append(reader.readint32bits())
 
 
-print(f'Bitstrings: {bitstrings}')
+    #generer kodeord
+    rod = gen_hoffmann(hyppighedstabel)
 
-#luk reader
-reader.close()
 
-#skriv den oprindelige fil igen:
+    #tæl mængden af bytes vi skal læse:
+    n_bytes = sum(hyppighedstabel)
 
-with open("testDecoded.txt", "wb") as f:
-    for bitstring in bitstrings:
-        f.write(bytes([kodeord.index(bitstring)]))
 
-print("Done!")
+    #læs mens vi har "hyppigheder" at læse
+    with open(dekomprimeret_fil, "wb") as f:
+        for _ in range(n_bytes):
+            bitcode = ""
+            current_node = rod
+            while current_node.byteværdi == -1:
+                bit = reader.readbit()
+                bitcode += str(bit)
+                if bit == 0:
+                    current_node = current_node.venstre
+                else:
+                    current_node = current_node.højre
+            
+            #skriv byten til filen
+            f.write(bytes([current_node.byteværdi]))
+
+
+
+if __name__ == "__main__":
+    #sys.argv = ["", "testEncoded.txt", "testDecoded.txt"]
+
+    decode(sys.argv[1], sys.argv[2])

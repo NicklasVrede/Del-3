@@ -6,7 +6,7 @@
 
 def getMinimum(A):
     if len(A) < 1:
-        return None
+        raise IndexError("Heapunder flow - No elements in list")
     return A[0]
 
 def left(i):
