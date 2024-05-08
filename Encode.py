@@ -11,9 +11,9 @@ from bitIO import BitWriter
 from ini import set_wd
 
 
-def encode(original_fil, komprimeret_fil):
+def encode(org_fil: str, komp_fil: str):
     #tæl hyppigheder
-    hyppighedstabel = tæl_bytes(original_fil)
+    hyppighedstabel = tæl_bytes(org_fil)
 
     #generer hoffman træ
     rod = gen_hoffmann(hyppighedstabel)
@@ -22,12 +22,11 @@ def encode(original_fil, komprimeret_fil):
     kodeord = gen_kodeord(rod)
 
     #skriv til fil
-    write_file(hyppighedstabel, original_fil, komprimeret_fil, kodeord)
+    write_file(hyppighedstabel, org_fil, komp_fil, kodeord)
 
 
-
-def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
-    with open(original_fil, "rb") as f_read, open(encoded, "wb") as f_write:
+def write_file(hyppighedstabel: list, org_fil: str, komp_fil: str, kodeord: list):
+    with open(org_fil, "rb") as f_read, open(komp_fil, "wb") as f_write:
         writer = BitWriter(f_write)
 
         #skriv hyppigheder i filen
@@ -40,7 +39,7 @@ def write_file(hyppighedstabel: dict, original_fil, encoded: str, kodeord:list):
             for bit in kodeord[byte[0]]: #skriv bitkode på indeks byte[0], bit for bit
                 writer.writebit(int(bit))
 
-        #luk writer, så den også "flusher" eventuelle resterende bits
+        #luk writer, så den "flusher" eventuelle resterende bits
         writer.close()
 
 

@@ -20,31 +20,31 @@ class Element:
         return self.key < other.key
 
 class Node():
-    def __init__(self, byteværdi, venstre, højre):
+    def __init__(self, byteværdi: int, venstre: 'Node'=None, højre: 'Node'=None):
         self.byteværdi = byteværdi
         self.venstre = venstre
         self.højre = højre
 
 
-def gen_hoffmann(hyppighedstabel):
+def gen_hoffmann(hyppighedstabel: list[int]) -> Node:
     # Opret en liste af noder
     min_heap = PQHeap.createEmptyPQ()
 
     #lav min_heap med elementer
-    for i, hyppighed in enumerate(hyppighedstabel):
-        PQHeap.insert(min_heap, Element(hyppighed, Node(i, None, None)))
+    for byteværdi, hyppighed in enumerate(hyppighedstabel):
+        PQHeap.insert(min_heap, Element(hyppighed, Node(byteværdi)))
 
     
     # Opret et Huffman træ
-    for _ in range(255):
-        # Fjern de to noder med lavest frekvens
+    for _ in range(255): # Vi skal merge 255 gange.
+        # Fjern de to elementer med laveste frekvens
         x = PQHeap.extractMin(min_heap)
         y = PQHeap.extractMin(min_heap)
 
-        # Opret en indre knude med x og y som børn
+        # Opret et nyt element med x og y som børn. Vi kunne også genbruge en gammel.
         z = Element(x.key + y.key, Node(-1, x.data, y.data))
 
-        # Indsæt den nye node i heapen
+        # Indsæt det nye element i heapen
         PQHeap.insert(min_heap, z)
 
     # Returner roden af træet
