@@ -28,7 +28,7 @@ def gen_kodeord(x: Node) -> list[int]:
         if x.byteværdi != -1:
             bitkoder[x.byteværdi] = sti #Opdater den specifikke bitkode.
 
-        #Ellers går vi videre:
+        #Ellers går vi videre og opdatere stien:
         else:
             træ_gang(x.venstre, bitkoder, sti + "0")
             træ_gang(x.højre, bitkoder, sti + "1")
