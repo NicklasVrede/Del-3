@@ -1,5 +1,5 @@
 from graphviz import Digraph
-from gen_hoffmann import Node, Element
+from gen_huffman import Node, Element
 
 
 def add_nodes_edges(rod, parent_id=None, dot=None, edge_label=None):
@@ -28,7 +28,7 @@ def add_nodes_edges(rod, parent_id=None, dot=None, edge_label=None):
         add_nodes_edges(rod.venstre, node_id, dot, edge_label="0")
         add_nodes_edges(rod.højre, node_id, dot, edge_label="1")
 
-def visualize_tree(rod):
+def vis_huffman(rod):
     # Create a new Graphviz object
     dot = Digraph(comment='Huffman Tree')
 
@@ -37,3 +37,14 @@ def visualize_tree(rod):
 
     # Render the Graphviz object
     return dot.view()
+
+if __name__ == "__main__":
+    from Encode import tæl_bytes
+    from gen_huffman import gen_huffman
+
+    
+    hyppighedstabel = tæl_bytes("test.txt")
+
+    rod = gen_huffman(hyppighedstabel)
+    
+    vis_huffman(rod)

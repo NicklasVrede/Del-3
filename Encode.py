@@ -2,28 +2,37 @@
 #Nicklas Enøe Vrede, nickh13
 #Mike Brydegaard, mibry23
 #Jakob, jamar23
-
 import sys
-from gen_hoffmann import gen_hoffmann
-from gen_kodeord import gen_kodeord
-from gen_hyppig import tæl_bytes
+from gen_huffman import gen_huffman, Node
 from bitIO import BitWriter
-from ini import set_wd
 
 
-def encode(org_fil: str, komp_fil: str):
-    #tæl hyppigheder
-    hyppighedstabel = tæl_bytes(org_fil)
+def tæl_bytes(file: str) -> list[int]:
+    # Opret en liste af 256 elementer, som skal indeholde bitkoderne
+    hyppighedstabel = [0] * 256
 
-    #generer hoffman træ
-    rod = gen_hoffmann(hyppighedstabel)
+    # Tæl antallet af bytes i filen
+    with open(file, 'rb') as f:
+        while (byte := f.read(1)):  #:= operator assigner f.read(1) til byte.
+            hyppighedstabel[byte[0]] += 1  #Element 0 i byte er byte heltallet.
 
-    #generer kodeord
-    kodeord = gen_kodeord(rod)
+    return hyppighedstabel
 
-    #skriv til fil
-    write_file(hyppighedstabel, org_fil, komp_fil, kodeord)
+def gen_kodeord(x: Node) -> list[int]:
+    # Opret en liste af 256 elementer, som skal indeholde bitkoderne
+    res = [0] * 256
 
+    # Rekursiv funktion, der går gennem træet og gemmer bitkoderne
+    def træ_gang(x: Node, res: list, sti: str=""):
+        if x is not None:
+            træ_gang(x.venstre, res, sti + "0")
+            if x.byteværdi != -1:
+                res[x.byteværdi] = sti
+            træ_gang(x.højre, res, sti + "1")
+        
+        return res
+
+    return træ_gang(x, res)
 
 def write_file(hyppighedstabel: list, org_fil: str, komp_fil: str, kodeord: list):
     with open(org_fil, "rb") as f_read, open(komp_fil, "wb") as f_write:
@@ -43,8 +52,21 @@ def write_file(hyppighedstabel: list, org_fil: str, komp_fil: str, kodeord: list
         writer.close()
 
 
+def encode(org_fil: str, komp_fil: str):
+    #tæl hyppigheder
+    hyppighedstabel = tæl_bytes(org_fil)
+
+    #generer hoffman træ
+    rod = gen_huffman(hyppighedstabel)
+
+    #generer kodeord
+    kodeord = gen_kodeord(rod)
+
+    #skriv til fil
+    write_file(hyppighedstabel, org_fil, komp_fil, kodeord)
+
+
 if __name__ == "__main__":
-    #set_wd()
     #sys.argv = ["", "test.txt", "testEncoded.txt"]
 
     original_fil = sys.argv[1]

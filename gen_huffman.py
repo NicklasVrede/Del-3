@@ -2,16 +2,13 @@
 #Nicklas Enøe Vrede, nickh13
 #Mike Brydegaard, mibry23
 #Jakob, jamar23
-
 import PQHeap
-from gen_hyppig import tæl_bytes
-from ini import set_wd
-from graphviz import Digraph
+
 
 class Element:
     def __init__(self, key, data):
         self.key = key  # frekvens
-        self.data = data  # byte værdi
+        self.data = data  # reference til en rod.
 
     def __eq__(self, other):
         return self.key == other.key
@@ -26,7 +23,7 @@ class Node():
         self.højre = højre
 
 
-def gen_hoffmann(hyppighedstabel: list[int]) -> Node:
+def gen_huffman(hyppighedstabel: list[int]) -> Node:
     # Opret en liste af noder
     min_heap = PQHeap.createEmptyPQ()
 
@@ -51,13 +48,7 @@ def gen_hoffmann(hyppighedstabel: list[int]) -> Node:
     return z.data
 
 
-if __name__ == "__main__":
-    from vis_hoffmann import visualize_tree
-    set_wd()
-    hyppighedstabel = tæl_bytes("test.txt")
 
-    rod = gen_hoffmann(hyppighedstabel)
-    
-    visualize_tree(rod)
+
     
     

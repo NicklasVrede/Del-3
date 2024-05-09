@@ -3,8 +3,6 @@
 #Mike Brydegaard, mibry23
 #Jakob, jamar23
 
-from ini import set_wd
-
 def tæl_bytes(file: str) -> list[int]:
     # Opret en liste af 256 elementer, som skal indeholde bitkoderne
     hyppighedstabel = [0] * 256
