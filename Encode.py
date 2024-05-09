@@ -70,10 +70,18 @@ def encode(org_fil: str, komp_fil: str):
 
 
 if __name__ == "__main__":
-    #sys.argv = ["", "test.txt", "testEncoded.txt"] #For at teste
+    def test():
+        import glob
+        test_fil = glob.glob("test.*")[0] #første fil.
+        _, suffix = test_fil.split(".")
+        sys.argv = ["", test_fil, "testEncoded."+suffix]
+
+    test() #manuel test
 
     original_fil = sys.argv[1]
     komprimeret_fil = sys.argv[2]
 
     encode(original_fil, komprimeret_fil)
+
+    print("Encode done!")
 

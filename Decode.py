@@ -47,9 +47,17 @@ def decode(kom_fil: str, dekom_fil:str):
 
 
 if __name__ == "__main__":
-    #sys.argv = ["", "testEncoded.txt", "testDecoded.txt"] #For at teste
+    def test():
+        import glob
+        test_fil = glob.glob("testEncoded.*")[0] #første fil.
+        _, suffix = test_fil.split(".")
+        sys.argv = ["", test_fil, "testDecoded."+suffix]
+
+    test() #manuel test
 
     kom_fil = sys.argv[1]
     dekom_fil = sys.argv[2]
 
     decode(kom_fil, dekom_fil)
+
+    print("Decode done!")
